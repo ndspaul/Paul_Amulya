@@ -1,0 +1,122 @@
+.divider {
+  width: 100%;
+  max-width: 900px;
+  margin: 0.5rem auto;
+  overflow: visible;
+
+  &__svg {
+    width: 100%;
+    height: auto;
+    overflow: visible;
+  }
+}
+
+/* ── Rule lines draw in from center outward ── */
+.rule {
+  stroke-dasharray: 350;
+  stroke-dashoffset: 350;
+  animation: drawLine 1.8s cubic-bezier(0.16, 1, 0.3, 1) both;
+
+  &--left-outer  { animation-delay: 0.2s; }
+  &--left-inner  { animation-delay: 0.4s; stroke-dasharray: 280; stroke-dashoffset: 280; }
+  &--right-outer { animation-delay: 0.2s; animation-name: drawLineReverse; }
+  &--right-inner { animation-delay: 0.4s; animation-name: drawLineReverse; stroke-dasharray: 270; stroke-dashoffset: -270; }
+}
+
+@keyframes drawLine {
+  from { stroke-dashoffset: 350; opacity: 0; }
+  to   { stroke-dashoffset: 0;   opacity: 1; }
+}
+@keyframes drawLineReverse {
+  from { stroke-dashoffset: -350; opacity: 0; }
+  to   { stroke-dashoffset: 0;    opacity: 1; }
+}
+
+/* ── Accent dots pop in ── */
+.dot {
+  opacity: 0;
+  animation: dotPop 0.5s cubic-bezier(0.34, 1.56, 0.64, 1) both;
+
+  &--l1 { animation-delay: 0.9s; }
+  &--l2 { animation-delay: 1.05s; }
+  &--l3 { animation-delay: 1.2s; }
+  &--r1 { animation-delay: 0.9s; }
+  &--r2 { animation-delay: 1.05s; }
+  &--r3 { animation-delay: 1.2s; }
+}
+
+@keyframes dotPop {
+  from { opacity: 0; transform: scale(0); }
+  to   { opacity: 1; transform: scale(1); }
+}
+
+/* ── Center ornament fades + scales in ── */
+.center-ornament {
+  opacity: 0;
+  animation: ornamentReveal 1.2s cubic-bezier(0.16, 1, 0.3, 1) 0.5s both;
+}
+
+@keyframes ornamentReveal {
+  from { opacity: 0; transform: translate(400px, 30px) scale(0.6); filter: blur(6px); }
+  to   { opacity: 1; transform: translate(400px, 30px) scale(1);   filter: blur(0);   }
+}
+
+/* ── Diamond slow spin ── */
+.diamond {
+  transform-origin: 0 0;
+  transform-box: fill-box;
+  animation: diamondSpin 12s linear infinite;
+}
+
+@keyframes diamondSpin {
+  from { transform: rotate(0deg); }
+  to   { transform: rotate(360deg); }
+}
+
+/* ── Outer dashed ring counter-spins ── */
+.ring--outer {
+  transform-origin: 0 0;
+  transform-box: fill-box;
+  animation: ringSpin 20s linear infinite reverse;
+}
+
+.ring--inner {
+  transform-origin: 0 0;
+  transform-box: fill-box;
+  animation: ringPulse 3s ease-in-out infinite;
+}
+
+@keyframes ringSpin {
+  from { transform: rotate(0deg); }
+  to   { transform: rotate(360deg); }
+}
+
+@keyframes ringPulse {
+  0%, 100% { opacity: 0.4; stroke: rgba(200,160,255,0.4); }
+  50%       { opacity: 0.9; stroke: rgba(220,180,255,0.7); }
+}
+
+/* ── Scroll petals breathe ── */
+.scroll {
+  animation: scrollBreath 4s ease-in-out infinite;
+  &--r { animation-delay: 2s; }
+}
+
+@keyframes scrollBreath {
+  0%, 100% { opacity: 0.5; }
+  50%       { opacity: 1; }
+}
+
+/* ── Accent stars twinkle ── */
+.accent-stars circle {
+  animation: starTwinkle 2.5s ease-in-out infinite;
+
+  &:nth-child(2) { animation-delay: 0.6s; }
+  &:nth-child(3) { animation-delay: 1.2s; }
+  &:nth-child(4) { animation-delay: 1.8s; }
+}
+
+@keyframes starTwinkle {
+  0%, 100% { opacity: 0.3; r: 1;    }
+  50%       { opacity: 1;   r: 1.4;  }
+}

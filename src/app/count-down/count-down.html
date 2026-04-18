@@ -1,0 +1,29 @@
+<h2>Save the Date</h2>
+<p class="countdown__target">Count down till 06-06-2026</p>
+
+<!-- The live countdown flexbox -->
+<div class="countdown">
+  <div class="countdown__block">
+    <span class="countdown__number">{{ days }}</span>
+    <span class="countdown__label">Days</span>
+  </div>
+  <div class="countdown__block">
+    <span class="countdown__number">{{ hours | number:'2.0-0' }}</span>
+    <span class="countdown__label">Hours</span>
+  </div>
+  <div class="countdown__block">
+    <span class="countdown__number">{{ minutes | number:'2.0-0' }}</span>
+    <span class="countdown__label">Mins</span>
+  </div>
+  <div class="countdown__block">
+    <span class="countdown__number">{{ seconds | number:'2.0-0' }}</span>
+    <span class="countdown__label">Secs</span>
+  </div>
+</div>
+
+<p>
+  Join us as we celebrate the union of two souls — an evening of love,
+  laughter, and dancing under the stars.
+</p>
+
+<!-- <app-rsvp-button></app-rsvp-button> -->

@@ -1,0 +1,46 @@
+<!-- Envelope screen — removed from DOM when done -->
+@if (state !== 'done') {
+<div class="invite-screen">
+
+  <!-- Looping background video -->
+  <video class="invite-screen__video" autoplay muted loop playsinline>
+    <source src="hero-bg.mp4" type="video/mp4" />
+  </video>
+  <div class="invite-screen__overlay"></div>
+
+  <!-- Top invitation text -->
+  <div class="invite-card" [class.fade-up]="state !== 'idle'">
+    <p class="invite-card__pre">You are specially invited to the</p>
+    <h1 class="invite-card__title">Wedding of</h1>
+    <p class="invite-card__names">Spurgeon <span class="amp">&amp;</span> Amulya</p>
+  </div>
+
+  <!-- Envelope -->
+  <div class="envelope-wrap" (click)="onEnvelopeClick()" [class.clicked]="state !== 'idle'">
+
+    <!-- Letter (white box that slides out and expands — no content inside) -->
+    <div class="letter"
+         [class.out]="state === 'opening'"
+         [class.fullscreen]="state === 'expanding'">
+    </div>
+
+    <!-- Layer 1: Envelope Body -->
+    <img class="env-body" src="env-body.svg" alt="Envelope Body" draggable="false" />
+
+    <!-- Layer 2: Flap -->
+    <img class="env-flap" src="env-flap.svg" [class.open]="state === 'opening' || state === 'expanding'" alt="Flap" draggable="false" />
+
+    <!-- Click hint -->
+    <div class="click-hint" [class.hide]="state !== 'idle'">
+      <span class="click-hint__dot"></span>
+      <span class="click-hint__text">Click to open</span>
+    </div>
+  </div>
+
+</div>
+}
+
+<!-- Site content: always in DOM, fades in after letter expands -->
+<div class="site-content" [class.visible]="state === 'expanding' || state === 'done'">
+  <ng-content></ng-content>
+</div>

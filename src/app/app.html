@@ -1,0 +1,51 @@
+<!-- Envelope Invitation Opener -->
+<app-invitation (opened)="onInvitationOpened()">
+
+  <!-- Main content (always rendered, sits under the envelope overlay) -->
+  <div class="page visible">
+
+    <!-- Hero: GSAP DrawSVG script names + RSVP button -->
+    <app-hero></app-hero>
+
+    <!-- Section Divider: floral vines CSS keyframes -->
+    <app-section-divider class="reveal"></app-section-divider>
+
+    <!-- Couple portrait + Bible verses -->
+    <section class="demo-section reveal">
+      <app-couple></app-couple>
+    </section>
+
+    <app-section-divider class="reveal"></app-section-divider>
+
+    <!-- About section -->
+    <section class="demo-section reveal">
+      <!-- <h2>Save the Date</h2>
+      <p>
+        Join us as we celebrate the union of two souls — an evening of love,
+        laughter, and dancing under the stars.
+      </p> -->
+      <!-- <app-rsvp-button></app-rsvp-button> -->
+
+      <app-count-down></app-count-down>
+    </section>
+
+    <!-- Section Divider repeated -->
+    <app-section-divider class="reveal"></app-section-divider>
+
+    <!-- Venue section -->
+    <section class="demo-section reveal">
+      <!-- <h2>The Venue</h2>
+      <p>
+        Grand Ballroom · Hyderabad<br>
+        Doors open at 6:30 PM · Ceremony at 7:00 PM
+      </p> -->
+      <app-venue></app-venue>
+    </section>
+
+    <app-section-divider class="reveal"></app-section-divider>
+
+  </div>
+
+  <router-outlet />
+
+</app-invitation>

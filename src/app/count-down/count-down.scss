@@ -1,0 +1,122 @@
+.countdown__target {
+  font-family: 'Georgia', serif;
+  font-size: 0.85rem;
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  color: #b898d4;
+  margin: 0 0 1rem 0;
+  animation: countdownTargetReveal 1.2s cubic-bezier(0.16, 1, 0.3, 1) 0.1s both;
+}
+
+@keyframes countdownTargetReveal {
+  from { opacity: 0; transform: translateY(8px); filter: blur(4px); }
+  to   { opacity: 1; transform: translateY(0);   filter: blur(0); }
+}
+
+.countdown {
+  display: flex;
+  justify-content: center;
+  gap: 1.5rem;
+  margin: 2.5rem 0;
+
+  @media (max-width: 600px) { gap: 0.8rem; }
+
+  &__block {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-width: 85px;
+    padding: 1.2rem 1rem;
+    background: rgba(255, 255, 255, 0.04);
+    border: 1px solid rgba(180, 120, 240, 0.25);
+    border-radius: 10px;
+    box-shadow:
+      0 8px 24px rgba(80, 0, 120, 0.15),
+      inset 0 1px 0 rgba(255, 255, 255, 0.06);
+    position: relative;
+    overflow: hidden;
+    backdrop-filter: blur(8px);
+
+    opacity: 0;
+    transform: translateY(20px) scale(0.94);
+    animation: blockEntrance 1s cubic-bezier(0.16, 1, 0.3, 1) both;
+
+    &:nth-child(1) { animation-delay: 0.15s; }
+    &:nth-child(2) { animation-delay: 0.3s;  }
+    &:nth-child(3) { animation-delay: 0.45s; }
+    &:nth-child(4) { animation-delay: 0.6s;  }
+
+    @media (max-width: 600px) { min-width: 65px; padding: 1rem 0.5rem; }
+
+    &::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(115deg, transparent 30%, rgba(180, 120, 255, 0.15) 50%, transparent 70%);
+      background-size: 300% 100%;
+      background-position: 150% 0;
+      opacity: 0;
+      transition: opacity 0.25s ease;
+      pointer-events: none;
+    }
+
+    &:hover {
+      border-color: rgba(180, 120, 255, 0.5);
+      box-shadow:
+        0 12px 32px rgba(80, 0, 120, 0.25),
+        0 0 0 1px rgba(180, 120, 255, 0.1);
+      transform: translateY(-3px) scale(1.02);
+
+      &::after {
+        opacity: 1;
+        animation: blockShimmer 0.9s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+      }
+    }
+
+    transition:
+      transform 0.4s cubic-bezier(0.16, 1, 0.3, 1),
+      box-shadow 0.4s cubic-bezier(0.16, 1, 0.3, 1),
+      border-color 0.4s ease;
+  }
+
+  &__number {
+    font-family: 'Georgia', serif;
+    font-size: clamp(1.8rem, 5vw, 2.5rem);
+    color: #c9a0e8;
+    line-height: 1;
+    margin-bottom: 0.5rem;
+    transition: color 0.3s ease, text-shadow 0.3s ease;
+    animation: numberBreath 4s ease-in-out infinite;
+
+    .countdown__block:nth-child(2) & { animation-delay: 1s; }
+    .countdown__block:nth-child(3) & { animation-delay: 2s; }
+    .countdown__block:nth-child(4) & { animation-delay: 3s; }
+  }
+
+  &__label {
+    font-family: 'Georgia', serif;
+    font-size: 0.72rem;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: rgba(200, 160, 240, 0.5);
+    transition: color 0.3s ease;
+
+    .countdown__block:hover & { color: #c9a0e8; }
+  }
+}
+
+@keyframes blockEntrance {
+  from { opacity: 0; transform: translateY(20px) scale(0.94); filter: blur(4px); }
+  to   { opacity: 1; transform: translateY(0) scale(1); filter: blur(0); }
+}
+
+@keyframes blockShimmer {
+  from { background-position: 150% 0; }
+  to   { background-position: -50% 0; }
+}
+
+@keyframes numberBreath {
+  0%, 100% { color: #c9a0e8; text-shadow: none; }
+  50%       { color: #e0b8ff; text-shadow: 0 0 24px rgba(180, 120, 255, 0.5); }
+}

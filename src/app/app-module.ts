@@ -1,5 +1,6 @@
 import { NgModule, provideBrowserGlobalErrorListeners } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
+import { CommonModule, DecimalPipe } from '@angular/common';
 
 import { AppRoutingModule } from './app-routing-module';
 import { App } from './app';
@@ -24,8 +25,8 @@ import { Couple } from './couple/couple';
     Venue,
     Couple,
   ],
-  imports: [BrowserModule, AppRoutingModule],
-  providers: [provideBrowserGlobalErrorListeners()],
+  imports: [BrowserModule, CommonModule, AppRoutingModule],
+  providers: [provideBrowserGlobalErrorListeners(), DecimalPipe],
   bootstrap: [App],
 })
 export class AppModule {}

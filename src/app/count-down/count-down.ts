@@ -8,9 +8,36 @@ import { interval, Subscription } from 'rxjs';
   standalone: false
 })
 export class CountDown implements OnInit, OnDestroy {
-  // Set to exactly June 6, 2026 at 7:00 PM (19:00:00).
-  // Note: JavaScript months are 0-indexed, so 5 = June.
   weddingDate: number = new Date(2026, 5, 6, 19, 0, 0).getTime();
+
+  googleCalendarUrl = 'https://calendar.google.com/calendar/render?action=TEMPLATE' +
+    '&text=Paul+%26+Amulya+Wedding' +
+    '&dates=20260606T130000Z/20260606T170000Z' +
+    '&details=Join+us+as+we+celebrate+the+wedding+of+Paul+%26+Amulya!' +
+    '&location=Grand+Ballroom,+Hyderabad';
+
+  downloadIcs(): void {
+    const ics = [
+      'BEGIN:VCALENDAR',
+      'VERSION:2.0',
+      'BEGIN:VEVENT',
+      'DTSTART:20260606T130000Z',
+      'DTEND:20260606T170000Z',
+      'SUMMARY:Paul & Amulya Wedding',
+      'DESCRIPTION:Join us as we celebrate the wedding of Paul & Amulya!',
+      'LOCATION:Grand Ballroom, Hyderabad',
+      'END:VEVENT',
+      'END:VCALENDAR'
+    ].join('\r\n');
+
+    const blob = new Blob([ics], { type: 'text/calendar' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = 'paul-amulya-wedding.ics';
+    a.click();
+    URL.revokeObjectURL(url);
+  }
 
   days: number = 0;
   hours: number = 0;

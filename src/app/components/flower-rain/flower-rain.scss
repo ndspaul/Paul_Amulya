@@ -1,0 +1,120 @@
+.flower-rain {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  overflow: hidden;
+  perspective: 800px;
+}
+
+// ── Vertical fall track ──
+.petal-track {
+  position: absolute;
+  top: -3rem;
+  animation: fall linear infinite;
+  will-change: transform;
+}
+
+// ── Horizontal sinusoidal sway ──
+.petal-sway {
+  animation: sway ease-in-out infinite alternate;
+  will-change: transform;
+}
+
+// ── Petal: 3D tumble + shimmer ──
+.petal {
+  display: inline-block;
+  transform-style: preserve-3d;
+  animation: tumble-x linear infinite, shimmer ease-in-out infinite alternate;
+  will-change: transform, opacity, text-shadow;
+  text-shadow: 0 0 4px rgba(107, 124, 94, 0.2);
+
+  &.flip-x { animation-name: tumble-x, shimmer; }
+  &.flip-y { animation-name: tumble-y, shimmer; }
+  &.flip-xy { animation-name: tumble-xy, shimmer; }
+}
+
+// ── Keyframes ──
+
+@keyframes fall {
+  0% {
+    transform: translateY(0);
+  }
+  100% {
+    transform: translateY(calc(100vh + 4rem));
+  }
+}
+
+@keyframes sway {
+  0% {
+    transform: translateX(calc(var(--sway, 40px) * -1));
+  }
+  100% {
+    transform: translateX(var(--sway, 40px));
+  }
+}
+
+@keyframes tumble-x {
+  0% {
+    transform: rotate(var(--start-rotate, 0deg)) rotateX(0deg) scale(1);
+  }
+  25% {
+    transform: rotate(calc(var(--start-rotate, 0deg) + 90deg)) rotateX(90deg) scale(0.85);
+  }
+  50% {
+    transform: rotate(calc(var(--start-rotate, 0deg) + 180deg)) rotateX(180deg) scale(1);
+  }
+  75% {
+    transform: rotate(calc(var(--start-rotate, 0deg) + 270deg)) rotateX(270deg) scale(0.85);
+  }
+  100% {
+    transform: rotate(calc(var(--start-rotate, 0deg) + 360deg)) rotateX(360deg) scale(1);
+  }
+}
+
+@keyframes tumble-y {
+  0% {
+    transform: rotate(var(--start-rotate, 0deg)) rotateY(0deg) scale(1);
+  }
+  25% {
+    transform: rotate(calc(var(--start-rotate, 0deg) + 90deg)) rotateY(90deg) scale(0.85);
+  }
+  50% {
+    transform: rotate(calc(var(--start-rotate, 0deg) + 180deg)) rotateY(180deg) scale(1);
+  }
+  75% {
+    transform: rotate(calc(var(--start-rotate, 0deg) + 270deg)) rotateY(270deg) scale(0.85);
+  }
+  100% {
+    transform: rotate(calc(var(--start-rotate, 0deg) + 360deg)) rotateY(360deg) scale(1);
+  }
+}
+
+@keyframes tumble-xy {
+  0% {
+    transform: rotate(var(--start-rotate, 0deg)) rotateX(0deg) rotateY(0deg) scale(1);
+  }
+  25% {
+    transform: rotate(calc(var(--start-rotate, 0deg) + 90deg)) rotateX(90deg) rotateY(45deg) scale(0.8);
+  }
+  50% {
+    transform: rotate(calc(var(--start-rotate, 0deg) + 180deg)) rotateX(180deg) rotateY(180deg) scale(1);
+  }
+  75% {
+    transform: rotate(calc(var(--start-rotate, 0deg) + 270deg)) rotateX(270deg) rotateY(225deg) scale(0.8);
+  }
+  100% {
+    transform: rotate(calc(var(--start-rotate, 0deg) + 360deg)) rotateX(360deg) rotateY(360deg) scale(1);
+  }
+}
+
+@keyframes shimmer {
+  0% {
+    text-shadow: 0 0 3px rgba(107, 124, 94, 0.1);
+    opacity: var(--base-opacity, 1);
+  }
+  100% {
+    text-shadow: 0 0 8px rgba(107, 124, 94, 0.25), 0 0 16px rgba(184, 160, 122, 0.1);
+    opacity: calc(var(--base-opacity, 1) * 1.3);
+  }
+}

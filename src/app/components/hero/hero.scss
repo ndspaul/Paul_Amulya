@@ -1,5 +1,3 @@
-@import url('https://fonts.googleapis.com/css2?family=Great+Vibes&display=swap');
-
 .hero {
   position: relative;
   display: flex;
@@ -8,27 +6,25 @@
   min-height: 100vh;
   overflow: hidden;
 
-  &__video {
+  &__bg {
     position: absolute;
     inset: 0;
     width: 100%;
     height: 100%;
     object-fit: cover;
     z-index: 0;
-    filter: blur(8px);
     transform: scale(1.05);
   }
 
   &__overlay {
     position: absolute;
     inset: 0;
-    /* Richer gradient overlay for a more cinematic, luxury feel */
     background: linear-gradient(
       to bottom,
-      rgba(0, 0, 0, 0.5) 0%,
-      rgba(0, 0, 0, 0.25) 40%,
-      rgba(0, 0, 0, 0.25) 60%,
-      rgba(0, 0, 0, 0.55) 100%
+      rgba(250, 248, 244, 0.45) 0%,
+      rgba(250, 248, 244, 0.2) 40%,
+      rgba(250, 248, 244, 0.2) 60%,
+      rgba(250, 248, 244, 0.55) 100%
     );
     z-index: 1;
   }
@@ -39,111 +35,149 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 1.5rem;
+    gap: 1rem;
     padding: 2rem;
+    text-align: center;
   }
 
   &__pre {
-    font-family: 'Georgia', serif;
-    font-size: 0.9rem;
+    font-family: var(--font-sans);
+    font-size: 0.8rem;
+    font-weight: 400;
     letter-spacing: 0.35em;
     text-transform: uppercase;
-    color: #f5e6d3;
+    color: var(--text-soft);
     margin: 0;
-    text-shadow: 0 1px 4px rgba(0, 0, 0, 0.5);
-    animation: heroSmallReveal 1.4s cubic-bezier(0.16, 1, 0.3, 1) 0.3s both;
+    opacity: 0;
+    animation: slowFadeUp 1.8s ease 0.3s forwards;
 
     @media (max-width: 480px) {
-      font-size: 0.75rem;
+      font-size: 0.7rem;
       letter-spacing: 0.2em;
     }
   }
 
-  &__date {
-    font-family: 'Georgia', serif;
-    font-size: 1.25rem;
-    font-weight: bold;
-    letter-spacing: 0.35em;
-    text-transform: uppercase;
-    color: #f5e6d3;
+  &__names {
+    font-family: var(--font-serif);
+    font-size: clamp(3rem, 7.5vw, 5.5rem);
+    font-weight: 300;
+    font-style: italic;
+    color: var(--text);
     margin: 0;
-    text-shadow: 0 1px 4px rgba(0, 0, 0, 0.5);
-    animation: heroSmallReveal 1.4s cubic-bezier(0.16, 1, 0.3, 1) 1.8s both;
+    line-height: 1.15;
+    letter-spacing: 0.02em;
 
-    @media (max-width: 480px) {
-      font-size: 1rem;
+    @media (max-width: 600px) {
+      font-size: clamp(2.2rem, 10vw, 3.5rem);
     }
   }
 
-  &__names-text {
-    font-family: 'Great Vibes', cursive;
-    font-size: clamp(3.5rem, 8vw, 6.5rem);
-    color: #ffffff;
-    font-weight: 400;
-    margin: 0;
-    text-align: center;
-    line-height: 1.2;
-
-    /* Fade up reveal + persistent gold shimmer pulse */
+  &__letter {
+    display: inline-block;
     opacity: 0;
-    transform: translateY(24px);
-    animation:
-      heroNamesReveal 2s cubic-bezier(0.16, 1, 0.3, 1) 0.7s forwards,
-      goldNameShimmer 5s ease-in-out 3s infinite;
+    transform: translateY(12px);
+    animation: letterReveal 1.2s cubic-bezier(0.16, 1, 0.3, 1) both;
 
-    .amp {
-      color: #c9a96e;
-      font-family: 'Georgia', serif;
-      font-style: italic;
-      font-size: 0.8em;
-      margin: 0 0.2rem;
+    &--space {
+      width: 0.25em;
+      opacity: 1;
+      transform: none;
+      animation: none;
     }
+
+    &--amp {
+      color: var(--olive);
+      font-style: normal;
+      font-weight: 400;
+      font-size: 0.65em;
+      margin: 0 0.08em;
+      vertical-align: 0.05em;
+    }
+  }
+
+  &__rule {
+    width: 50px;
+    height: 1px;
+    background: var(--gold);
+    opacity: 0;
+    animation: slowFadeIn 2s ease 2s forwards;
+  }
+
+  &__date {
+    font-family: var(--font-serif);
+    font-size: 1.15rem;
+    font-weight: 400;
+    letter-spacing: 0.08em;
+    color: var(--text-soft);
+    margin: 0;
+    opacity: 0;
+    animation: slowFadeUp 1.8s ease 2.2s forwards;
+
+    @media (max-width: 480px) { font-size: 0.95rem; }
+  }
+
+  &__location {
+    font-family: var(--font-sans);
+    font-size: 0.78rem;
+    font-weight: 300;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    margin: 0;
+    opacity: 0;
+    animation: slowFadeUp 1.8s ease 2.6s forwards;
+  }
+
+  // ── Scroll indicator ──
+  &__scroll {
+    position: absolute;
+    bottom: 2.5rem;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 2;
+    opacity: 0;
+    animation: slowFadeIn 2s ease 3.5s forwards;
+  }
+
+  &__scroll-line {
+    display: block;
+    width: 1px;
+    height: 40px;
+    background: linear-gradient(to bottom, var(--olive-light), transparent);
+    animation: scrollPulse 2.5s ease-in-out infinite;
   }
 }
 
-/* Small text (pre + date) — blur + slide up */
-@keyframes heroSmallReveal {
+// ── Keyframes ──
+
+@keyframes letterReveal {
+  0% {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes slowFadeUp {
   from {
     opacity: 0;
     transform: translateY(10px);
-    filter: blur(6px);
   }
   to {
     opacity: 1;
     transform: translateY(0);
-    filter: blur(0);
   }
 }
 
-/* Names — larger blur + slide, slightly scaled */
-@keyframes heroNamesReveal {
-  from {
-    opacity: 0;
-    transform: translateY(24px) scale(0.97);
-    filter: blur(12px);
-    text-shadow: 0 2px 12px rgba(0, 0, 0, 0.4);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0) scale(1);
-    filter: blur(0);
-    text-shadow:
-      0 2px 12px rgba(0, 0, 0, 0.4),
-      0 0 60px rgba(201, 169, 110, 0.2);
-  }
+@keyframes slowFadeIn {
+  from { opacity: 0; }
+  to   { opacity: 1; }
 }
 
-/* Slow golden shimmer breathing on the names */
-@keyframes goldNameShimmer {
-  0%, 100% {
-    text-shadow:
-      0 2px 12px rgba(0, 0, 0, 0.4),
-      0 0 40px rgba(201, 169, 110, 0.15);
-  }
-  50% {
-    text-shadow:
-      0 2px 12px rgba(0, 0, 0, 0.4),
-      0 0 80px rgba(201, 169, 110, 0.45),
-      0 0 140px rgba(232, 180, 120, 0.15);
-  }
+@keyframes scrollPulse {
+  0%, 100% { opacity: 0.3; transform: scaleY(1); }
+  50%      { opacity: 0.8; transform: scaleY(1.2); }
 }

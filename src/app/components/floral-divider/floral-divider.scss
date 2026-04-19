@@ -1,0 +1,57 @@
+.floral-divider {
+  width: 100%;
+  max-width: 600px;
+  margin: 0 auto;
+  padding: 1.5rem 0;
+
+  svg {
+    width: 100%;
+    height: auto;
+  }
+
+  &__stem {
+    stroke-dasharray: 250;
+    stroke-dashoffset: 250;
+    animation: stemDraw 2s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+
+    &--right {
+      animation-name: stemDrawReverse;
+    }
+  }
+
+  &__leaf {
+    opacity: 0;
+    animation: leafFade 0.8s ease forwards;
+
+    &--l1, &--r1 { animation-delay: 0.6s; }
+    &--l2, &--r2 { animation-delay: 0.9s; }
+    &--l3, &--r3 { animation-delay: 1.2s; }
+  }
+
+  &__bloom {
+    opacity: 0;
+    animation: leafFade 1s ease 1.4s forwards;
+  }
+
+  &__bloom-center {
+    opacity: 0;
+    animation: leafFade 0.8s ease 1.6s forwards;
+  }
+
+  &__petal {
+    opacity: 0;
+    animation: leafFade 0.6s ease 1.5s forwards;
+  }
+}
+
+@keyframes stemDraw {
+  to { stroke-dashoffset: 0; }
+}
+
+@keyframes stemDrawReverse {
+  to { stroke-dashoffset: 0; }
+}
+
+@keyframes leafFade {
+  to { opacity: 1; }
+}

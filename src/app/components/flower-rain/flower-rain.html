@@ -1,0 +1,34 @@
+<div class="flower-rain">
+  @for (petal of petals; track $index) {
+    <!-- Outer: vertical fall -->
+    <div
+      class="petal-track"
+      [style.left.%]="petal.left"
+      [style.animationDuration.s]="petal.fallDuration"
+      [style.animationDelay.s]="petal.delay"
+      [style.zIndex]="petal.layer"
+    >
+      <!-- Mid: horizontal sway -->
+      <div
+        class="petal-sway"
+        [style.--sway]="petal.swayAmount + 'px'"
+        [style.animationDuration.s]="petal.swayDuration"
+        [style.animationDelay.s]="petal.delay"
+      >
+        <!-- Inner: 3D tumble + shimmer -->
+        <span
+          class="petal"
+          [class.flip-x]="petal.flipAxis === 'X'"
+          [class.flip-y]="petal.flipAxis === 'Y'"
+          [class.flip-xy]="petal.flipAxis === 'XY'"
+          [style.fontSize.rem]="petal.size"
+          [style.opacity]="petal.opacity"
+          [style.filter]="'blur(' + petal.blur + 'px)'"
+          [style.animationDuration.s]="petal.rotateSpeed + ',' + petal.shimmerDuration"
+          [style.animationDelay.s]="petal.delay"
+          [style.--start-rotate]="petal.startRotate + 'deg'"
+        >{{ petal.emoji }}</span>
+      </div>
+    </div>
+  }
+</div>

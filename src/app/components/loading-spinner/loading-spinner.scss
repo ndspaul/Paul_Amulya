@@ -1,55 +1,18 @@
-.spinner {
+.loading-overlay {
+  position: fixed;
+  inset: 0;
   display: flex;
-  flex-direction: column;
   align-items: center;
-  gap: 1rem;
+  justify-content: center;
+  background: var(--bg);
+  z-index: 100;
+  transition: opacity 0.5s ease, visibility 0.5s ease;
+  opacity: 1;
+  visibility: visible;
+  color: var(--text-muted);
 
-  &__svg {
-    width: 80px;
-    height: 80px;
+  &.hidden {
+    opacity: 0;
+    visibility: hidden;
   }
-
-  &__text {
-    font-family: 'Georgia', serif;
-    font-size: 0.85rem;
-    letter-spacing: 0.2em;
-    color: #a07850;
-    margin: 0;
-  }
-}
-
-// Outer ring: full rotation with a partial dash gap
-@keyframes ring-spin-outer {
-  0%   { stroke-dashoffset: 0;   transform: rotate(0deg); }
-  100% { stroke-dashoffset: 0;   transform: rotate(360deg); }
-}
-
-// Inner ring: counter-rotation for interlocking effect
-@keyframes ring-spin-inner {
-  0%   { transform: rotate(0deg); }
-  100% { transform: rotate(-360deg); }
-}
-
-// Dot gentle pulse
-@keyframes dot-pulse {
-  0%, 100% { r: 3; opacity: 1; }
-  50%       { r: 4.5; opacity: 0.7; }
-}
-
-.spinner__ring {
-  transform-origin: 40px 40px;
-
-  &--outer {
-    stroke-dasharray: 160 54; // partial arc gap
-    animation: ring-spin-outer 2s linear infinite;
-  }
-
-  &--inner {
-    stroke-dasharray: 100 38;
-    animation: ring-spin-inner 1.5s linear infinite;
-  }
-}
-
-.spinner__dot {
-  animation: dot-pulse 2s ease-in-out infinite;
 }

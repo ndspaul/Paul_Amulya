@@ -1,19 +1,39 @@
 <section class="hero">
-  <!-- Looping background video -->
-  <video class="hero__video" autoplay [muted]="true" loop playsinline>
+  <!-- Background image (video kept as fallback) -->
+  <video class="hero__bg" autoplay [muted]="true" loop playsinline>
     <source src="/hero-bg.mp4" type="video/mp4" />
   </video>
 
-  <!-- Overlay -->
+  <!-- Soft warm overlay -->
   <div class="hero__overlay"></div>
 
-  <!-- Content on top of video -->
+  <!-- Centered content -->
   <div class="hero__content">
     <p class="hero__pre">We are getting married</p>
 
-    <h1 class="hero__names-text">Spurgeon <span class="amp">&amp;</span> Amulya</h1>
+    <h1 class="hero__names">
+      @for (l of letters; track $index) {
+        @if (l.isSpace) {
+          <span class="hero__letter hero__letter--space">&nbsp;</span>
+        } @else {
+          <span
+            class="hero__letter"
+            [class.hero__letter--amp]="l.isAmp"
+            [style.animationDelay.s]="l.delay"
+          >{{ l.char }}</span>
+        }
+      }
+    </h1>
 
-    <p class="hero__date">06 · 06 · 2026</p>
+    <div class="hero__rule"></div>
 
+    <p class="hero__date">June Sixth, Two Thousand Twenty-Six</p>
+
+    <p class="hero__location">Hyderabad, India</p>
+  </div>
+
+  <!-- Scroll indicator -->
+  <div class="hero__scroll">
+    <span class="hero__scroll-line"></span>
   </div>
 </section>

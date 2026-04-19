@@ -11,6 +11,11 @@ import { Invitation } from './components/invitation/invitation';
 import { CountDown } from './count-down/count-down';
 import { Venue } from './venue/venue';
 import { Couple } from './couple/couple';
+import { FlowerRain } from './components/flower-rain/flower-rain';
+import { GoldDust } from './components/gold-dust/gold-dust';
+import { Confetti } from './components/confetti/confetti';
+import { Monogram } from './components/monogram/monogram';
+import { FloralDivider } from './components/floral-divider/floral-divider';
 
 @NgModule({
   declarations: [
@@ -23,6 +28,11 @@ import { Couple } from './couple/couple';
     CountDown,
     Venue,
     Couple,
+    FlowerRain,
+    GoldDust,
+    Confetti,
+    Monogram,
+    FloralDivider,
   ],
   imports: [BrowserModule, AppRoutingModule],
   providers: [provideBrowserGlobalErrorListeners()],

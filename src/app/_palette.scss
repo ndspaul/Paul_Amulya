@@ -1,0 +1,50 @@
+// ═══════════════════════════════════════════════════
+// EDITORIAL WEDDING PALETTE
+// Ivory · Olive · Muted Gold · Warm White
+// ═══════════════════════════════════════════════════
+
+:root {
+  // ── Backgrounds ──
+  --bg:             #faf8f4;          // warm white
+  --bg-soft:        #f3efe8;          // soft ivory
+  --bg-section:     #f7f4ef;          // alternating sections
+  --bg-card:        #ffffff;
+  --bg-card-hover:  #fdfcfa;
+
+  // ── Olive spectrum ──
+  --olive:          #6b7c5e;          // core olive
+  --olive-light:    #8a9a7a;          // lighter olive
+  --olive-dark:     #4a5a3e;          // deep olive
+  --olive-muted:    rgba(107, 124, 94, 0.12);
+
+  // ── Gold spectrum (muted) ──
+  --gold:           #b8a07a;          // muted gold
+  --gold-light:     #d4c4a0;          // soft gold
+  --gold-bright:    #c9b48e;          // warm gold
+  --gold-dim:       #9a8a6a;          // deep gold
+
+  // ── Text ──
+  --text:           #2c2c28;          // primary text (warm charcoal)
+  --text-soft:      #5a5850;          // secondary text
+  --text-muted:     #8a8880;          // tertiary / labels
+  --text-light:     #b0ada5;          // very light
+
+  // ── Ivory tones ──
+  --ivory:          #f5f0e8;
+  --ivory-warm:     #ede6da;
+  --cream:          #faf6ef;
+
+  // ── Borders ──
+  --border:         rgba(107, 124, 94, 0.15);
+  --border-hover:   rgba(107, 124, 94, 0.35);
+  --border-gold:    rgba(184, 160, 122, 0.25);
+
+  // ── Shadows ──
+  --shadow-soft:    0 4px 24px rgba(0, 0, 0, 0.06);
+  --shadow-card:    0 2px 16px rgba(0, 0, 0, 0.04);
+  --shadow-hover:   0 8px 32px rgba(0, 0, 0, 0.08);
+
+  // ── Fonts ──
+  --font-serif:     'Cormorant Garamond', 'Georgia', serif;
+  --font-sans:      'Inter', 'Helvetica Neue', sans-serif;
+}

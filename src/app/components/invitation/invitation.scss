@@ -5,7 +5,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  background: #1a0e08;
+  background: var(--bg);
 
   &__video {
     position: absolute;
@@ -19,7 +19,7 @@
   &__overlay {
     position: absolute;
     inset: 0;
-    background: rgba(0, 0, 0, 0.45);
+    background: rgba(250, 248, 244, 0.55);
     z-index: 1;
   }
 }
@@ -33,7 +33,7 @@
   transform: translateX(-50%);
   text-align: center;
   z-index: 2;
-  transition: opacity 0.6s cubic-bezier(0.16, 1, 0.3, 1), transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+  transition: opacity 0.8s ease, transform 0.8s ease;
   padding: 0 1rem;
 
   @media (max-width: 480px) { top: 6%; }
@@ -46,53 +46,48 @@
 
   &__pre {
     margin: 0 0 0.4rem;
-    font-family: 'Georgia', serif;
-    font-size: 0.85rem;
+    font-family: var(--font-sans);
+    font-size: 0.78rem;
+    font-weight: 400;
     letter-spacing: 0.3em;
     text-transform: uppercase;
-    color: #f5e6d3;
-    text-shadow: 0 1px 6px rgba(0,0,0,0.5);
-    animation: luxuryTextReveal 1.6s cubic-bezier(0.16, 1, 0.3, 1) 0.4s both;
+    color: var(--text-muted);
+    animation: inviteReveal 1.8s ease 0.4s both;
 
-    @media (max-width: 480px) { font-size: 0.7rem; letter-spacing: 0.15em; }
+    @media (max-width: 480px) { font-size: 0.65rem; letter-spacing: 0.15em; }
   }
 
   &__title {
     margin: 0 0 0.3rem;
-    font-family: 'Georgia', serif;
+    font-family: var(--font-serif);
     font-size: clamp(1.6rem, 4vw, 2.8rem);
-    font-weight: normal;
-    color: #fff;
-    letter-spacing: 0.08em;
-    text-shadow: 0 2px 10px rgba(0,0,0,0.5);
-    animation: luxuryTitleReveal 1.8s cubic-bezier(0.16, 1, 0.3, 1) 0.85s both;
+    font-weight: 300;
+    color: var(--text);
+    letter-spacing: 0.06em;
+    animation: inviteReveal 1.8s ease 0.85s both;
 
     @media (max-width: 480px) { font-size: clamp(1.3rem, 6vw, 1.8rem); }
   }
 
   &__names {
     margin: 0;
-    font-family: 'Georgia', serif;
+    font-family: var(--font-serif);
     font-size: clamp(1.2rem, 3vw, 2rem);
-    color: #f5e6d3;
-    letter-spacing: 0.05em;
-    text-shadow: 0 1px 6px rgba(0,0,0,0.5);
-    animation: luxuryTextReveal 1.6s cubic-bezier(0.16, 1, 0.3, 1) 1.3s both;
+    font-weight: 400;
+    font-style: italic;
+    color: var(--olive-dark);
+    letter-spacing: 0.04em;
+    animation: inviteReveal 1.8s ease 1.3s both;
 
     @media (max-width: 480px) { font-size: clamp(1rem, 5vw, 1.4rem); }
 
-    .amp { color: #c9a96e; font-style: italic; margin: 0 0.4rem; }
+    .amp { color: var(--gold); font-style: italic; margin: 0 0.4rem; }
   }
 }
 
-@keyframes luxuryTextReveal {
-  from { opacity: 0; transform: translateY(18px); filter: blur(8px); }
-  to   { opacity: 1; transform: translateY(0);    filter: blur(0);   }
-}
-
-@keyframes luxuryTitleReveal {
-  from { opacity: 0; transform: translateY(24px) scale(0.96); filter: blur(10px); }
-  to   { opacity: 1; transform: translateY(0)    scale(1);    filter: blur(0);    }
+@keyframes inviteReveal {
+  from { opacity: 0; transform: translateY(14px); }
+  to   { opacity: 1; transform: translateY(0); }
 }
 
 /* ── Envelope wrapper ────────────────────────────── */
@@ -101,38 +96,14 @@
   z-index: 2;
   width: min(500px, 88vw);
   cursor: pointer;
-  transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1),
-              filter  0.5s cubic-bezier(0.16, 1, 0.3, 1);
+  transition: transform 0.6s ease, box-shadow 0.6s ease;
 
   &:hover:not(.clicked) {
-    transform: translateY(-8px);
-    filter: drop-shadow(0 24px 48px rgba(201, 169, 110, 0.25));
-  }
-
-  &::after {
-    content: '';
-    position: absolute;
-    inset: 0;
-    z-index: 10;
-    pointer-events: none;
-    background: linear-gradient(115deg, transparent 30%, rgba(201,169,110,0.22) 50%, transparent 70%);
-    background-size: 300% 100%;
-    background-position: 150% 0;
-    opacity: 0;
-    transition: opacity 0.3s ease;
-  }
-
-  &:hover:not(.clicked)::after {
-    opacity: 1;
-    animation: envelopeShimmer 1.2s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    transform: translateY(-6px);
+    filter: drop-shadow(0 16px 40px rgba(107, 124, 94, 0.15));
   }
 
   &.clicked { cursor: default; }
-}
-
-@keyframes envelopeShimmer {
-  from { background-position: 150% 0; }
-  to   { background-position: -50% 0; }
 }
 
 /* ── Envelope SVG Layers ─────────────────────────── */
@@ -154,7 +125,7 @@
 
 .env-flap {
   z-index: 3;
-  filter: drop-shadow(0 8px 16px rgba(100, 60, 20, 0.3));
+  filter: drop-shadow(0 4px 12px rgba(0, 0, 0, 0.1));
   transform-origin: top center;
   transform-box: fill-box;
   transform: perspective(900px) rotateX(0deg);
@@ -166,7 +137,7 @@
 
   &.open {
     transform: perspective(900px) rotateX(180deg);
-    filter: drop-shadow(0 0px 0px rgba(100, 60, 20, 0));
+    filter: drop-shadow(0 0 0 transparent);
     z-index: 0;
     transition:
       transform 12.5s cubic-bezier(0.16, 1, 0.3, 1),
@@ -185,56 +156,53 @@
   align-items: center;
   gap: 0.5rem;
   opacity: 1;
-  transition: opacity 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+  transition: opacity 0.5s ease;
   white-space: nowrap;
-  animation: hintReveal 1.4s cubic-bezier(0.16, 1, 0.3, 1) 2s both;
+  animation: hintReveal 1.8s ease 2s both;
 
   &.hide { opacity: 0; pointer-events: none; }
 
   &__text {
-    font-family: 'Georgia', serif;
-    font-size: 0.8rem;
+    font-family: var(--font-sans);
+    font-size: 0.72rem;
+    font-weight: 400;
     letter-spacing: 0.22em;
     text-transform: uppercase;
-    color: #c9a96e;
-    text-shadow: 0 0 12px rgba(201, 169, 110, 0.4);
+    color: var(--text-muted);
   }
 }
 
 @keyframes hintReveal {
-  from { opacity: 0; transform: translateX(-50%) translateY(8px); }
-  to   { opacity: 1; transform: translateX(-50%) translateY(0);   }
-}
-
-@keyframes pulse-dot {
-  0%, 100% { transform: scale(1);   opacity: 1;   }
-  50%       { transform: scale(1.6); opacity: 0.4; }
+  from { opacity: 0; transform: translateX(-50%) translateY(6px); }
+  to   { opacity: 1; transform: translateX(-50%) translateY(0); }
 }
 
 .click-hint__dot {
-  width: 6px;
-  height: 6px;
+  width: 5px;
+  height: 5px;
   border-radius: 50%;
-  background: #c9a96e;
-  box-shadow: 0 0 8px rgba(201, 169, 110, 0.6);
-  animation: pulse-dot 2s ease-in-out infinite;
+  background: var(--olive-light);
+  animation: dotPulse 2.5s ease-in-out infinite;
 }
 
-/* ── Letter (white box, inside invite-screen) ────── */
-/* position: absolute → positioned relative to invite-screen (position: fixed) */
+@keyframes dotPulse {
+  0%, 100% { transform: scale(1); opacity: 0.8; }
+  50%      { transform: scale(1.4); opacity: 0.3; }
+}
+
+/* ── Letter ──────────────────────────────────────── */
 .letter {
   position: absolute;
-  z-index: 1;   /* behind env-body (z-index 2), slides out when flap drops to z-index 0 */
+  z-index: 1;
   top: 50%;
   left: 50%;
   width: 94%;
   height: 95%;
-  background: #ffffff;
+  background: var(--bg);
   border-radius: 8px 8px 0 0;
   overflow: hidden;
 
   transform: translate(-50%, -48%);
-  /* Waits 2.5s for flap to drop, then slides out in 0.6s */
   transition: transform 1s cubic-bezier(0.16, 1, 0.3, 1) 1.5s;
 
   &.out {
@@ -253,8 +221,7 @@
   }
 }
 
-/* ── Site content overlay ────────────────────────── */
-/* Always in DOM, fades in above everything once letter is fullscreen */
+/* ── Site content ────────────────────────────────── */
 .site-content {
   position: fixed;
   inset: 0;
@@ -263,9 +230,7 @@
   opacity: 0;
   visibility: hidden;
   pointer-events: none;
-  /* Delayed fade-in: wait for letter to expand (0.5s) + small buffer */
-  transition: opacity 0.6s cubic-bezier(0.16, 1, 0.3, 1) 0.4s,
-              visibility 0s 0s;
+  transition: opacity 0.8s ease 0.4s, visibility 0s 0s;
 
   &.visible {
     opacity: 1;

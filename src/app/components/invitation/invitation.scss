@@ -90,6 +90,92 @@
   to   { opacity: 1; transform: translateY(0); }
 }
 
+/* ── Butterflies ─────────────────────────────────── */
+.butterflies {
+  position: absolute;
+  inset: 0;
+  z-index: 3;
+  pointer-events: none;
+  overflow: hidden;
+
+  &.fly-away .butterfly {
+    transition: opacity 1.8s ease-out, transform 3s cubic-bezier(0.2, 0.8, 0.3, 1);
+    opacity: 0 !important;
+    transform: translate(0, -130vh) rotate(60deg) scale(0.15) !important;
+  }
+}
+
+.butterfly {
+  position: absolute;
+  width: 70px;
+  height: 70px;
+  animation: drift var(--drift-dur, 14s) ease-in-out infinite;
+  animation-delay: var(--drift-delay, 0s);
+  will-change: transform;
+  // Entrance: fade in with stagger
+  opacity: 0;
+  animation: drift var(--drift-dur, 14s) ease-in-out infinite,
+             butterflyEntrance 1.5s ease-out var(--entrance-delay, 0s) forwards;
+}
+
+.butterfly__body {
+  width: 100%;
+  height: 100%;
+  filter: drop-shadow(0 3px 6px rgba(0, 0, 0, 0.1));
+}
+
+.butterfly__3d {
+  width: 100%;
+  height: 100%;
+  perspective: 200px;
+}
+
+.butterfly__svg {
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+}
+
+// 3D wing flapping with perspective
+.wing-group {
+  transform-origin: 60px 50px; // body center
+
+  &--left {
+    animation: flapLeft var(--flap-dur, 0.3s) ease-in-out infinite alternate;
+  }
+  &--right {
+    animation: flapRight var(--flap-dur, 0.3s) ease-in-out infinite alternate;
+  }
+}
+
+@keyframes flapLeft {
+  0%   { transform: rotateY(0deg) rotateZ(0deg); }
+  100% { transform: rotateY(55deg) rotateZ(-4deg); }
+}
+
+@keyframes flapRight {
+  0%   { transform: rotateY(0deg) rotateZ(0deg); }
+  100% { transform: rotateY(-55deg) rotateZ(4deg); }
+}
+
+// Organic drift with rotation — 8 waypoints for smoother path
+@keyframes drift {
+  0%    { translate: 0 0; rotate: 0deg; }
+  12.5% { translate: var(--drift-x1, 40px) var(--drift-y1, -30px); rotate: var(--drift-r1, 5deg); }
+  25%   { translate: var(--drift-x2, -30px) var(--drift-y2, -50px); rotate: var(--drift-r2, -8deg); }
+  37.5% { translate: var(--drift-x3, 50px) var(--drift-y3, -10px); rotate: var(--drift-r3, 3deg); }
+  50%   { translate: var(--drift-x4, -20px) var(--drift-y4, 20px); rotate: var(--drift-r4, -5deg); }
+  62.5% { translate: var(--drift-x3, 30px) var(--drift-y1, -40px); rotate: var(--drift-r2, 6deg); }
+  75%   { translate: var(--drift-x1, -40px) var(--drift-y3, 10px); rotate: var(--drift-r3, -4deg); }
+  87.5% { translate: var(--drift-x2, 20px) var(--drift-y4, -20px); rotate: var(--drift-r1, 7deg); }
+  100%  { translate: 0 0; rotate: 0deg; }
+}
+
+@keyframes butterflyEntrance {
+  from { opacity: 0; transform: translateY(30px) scale(0.5); }
+  to   { opacity: 1; transform: translateY(0) scale(1); }
+}
+
 /* ── Envelope wrapper ────────────────────────────── */
 .envelope-wrap {
   position: relative;

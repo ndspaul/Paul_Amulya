@@ -15,6 +15,118 @@
     <p class="invite-card__names">Spurgeon <span class="amp">&amp;</span> Amulya</p>
   </div>
 
+  <!-- Butterflies -->
+  <div class="butterflies" [class.fly-away]="state !== 'idle'">
+    @for (b of butterflies; track b.id) {
+      <div class="butterfly"
+           [style.top]="b.top"
+           [style.left]="b.left"
+           [style.--drift-dur]="b.driftDur"
+           [style.--drift-delay]="b.delay"
+           [style.--drift-x1]="b.dx1" [style.--drift-y1]="b.dy1"
+           [style.--drift-x2]="b.dx2" [style.--drift-y2]="b.dy2"
+           [style.--drift-x3]="b.dx3" [style.--drift-y3]="b.dy3"
+           [style.--drift-x4]="b.dx4" [style.--drift-y4]="b.dy4"
+           [style.--drift-r1]="b.r1"  [style.--drift-r2]="b.r2"
+           [style.--drift-r3]="b.r3"  [style.--drift-r4]="b.r4"
+           [style.--entrance-delay]="b.entranceDelay">
+        <div class="butterfly__body"
+             [style.transform]="'scale(' + b.scale + ')'">
+          <!-- 3D perspective wrapper -->
+          <div class="butterfly__3d">
+            <svg class="butterfly__svg" viewBox="0 0 120 100" xmlns="http://www.w3.org/2000/svg">
+              <defs>
+                <!-- Unique gradient per butterfly -->
+                <radialGradient [attr.id]="'wg-upper-' + b.id" cx="30%" cy="40%" r="70%">
+                  <stop offset="0%" [attr.stop-color]="b.color1" stop-opacity="0.9" />
+                  <stop offset="60%" [attr.stop-color]="b.color2" stop-opacity="0.75" />
+                  <stop offset="100%" [attr.stop-color]="b.color3" stop-opacity="0.5" />
+                </radialGradient>
+                <radialGradient [attr.id]="'wg-lower-' + b.id" cx="40%" cy="30%" r="65%">
+                  <stop offset="0%" [attr.stop-color]="b.color2" stop-opacity="0.85" />
+                  <stop offset="100%" [attr.stop-color]="b.color3" stop-opacity="0.55" />
+                </radialGradient>
+              </defs>
+
+              <!-- LEFT WINGS -->
+              <g class="wing-group wing-group--left" [style.--flap-dur]="b.flapDur">
+                <!-- Upper wing -->
+                <path [attr.fill]="'url(#wg-upper-' + b.id + ')'"
+                      d="M60 50 C52 32, 30 8, 12 18 C-2 26, 2 48, 18 52 C28 54, 42 56, 52 54 C56 53, 58 51, 60 50Z" />
+                <!-- Upper wing edge highlight -->
+                <path d="M60 50 C52 32, 30 8, 12 18"
+                      fill="none" stroke="rgba(255,255,255,0.3)" stroke-width="0.8" />
+                <!-- Upper wing veins -->
+                <path d="M60 50 C48 40, 30 28, 18 30" fill="none" stroke="rgba(0,0,0,0.07)" stroke-width="0.5" />
+                <path d="M60 50 C50 44, 32 38, 14 42" fill="none" stroke="rgba(0,0,0,0.06)" stroke-width="0.4" />
+                <path d="M60 50 C52 48, 36 48, 22 50" fill="none" stroke="rgba(0,0,0,0.05)" stroke-width="0.4" />
+                <!-- Upper wing spots -->
+                <circle cx="30" cy="30" r="3.5" [attr.fill]="b.spotColor" fill-opacity="0.3" />
+                <circle cx="22" cy="38" r="2.5" [attr.fill]="b.spotColor" fill-opacity="0.25" />
+                <circle cx="38" cy="36" r="2" fill="rgba(255,255,255,0.2)" />
+                <!-- Lower wing -->
+                <path [attr.fill]="'url(#wg-lower-' + b.id + ')'"
+                      d="M60 50 C54 58, 36 68, 22 76 C14 82, 18 90, 30 86 C40 82, 52 70, 58 58 C59 55, 60 52, 60 50Z" />
+                <!-- Lower wing veins -->
+                <path d="M60 50 C50 60, 36 70, 26 78" fill="none" stroke="rgba(0,0,0,0.06)" stroke-width="0.4" />
+                <path d="M60 50 C52 58, 40 66, 32 72" fill="none" stroke="rgba(0,0,0,0.05)" stroke-width="0.3" />
+                <!-- Lower wing edge -->
+                <path d="M22 76 C14 82, 18 90, 30 86"
+                      fill="none" stroke="rgba(255,255,255,0.2)" stroke-width="0.6" />
+                <!-- Lower wing spot -->
+                <circle cx="38" cy="68" r="2.5" [attr.fill]="b.spotColor" fill-opacity="0.2" />
+              </g>
+
+              <!-- RIGHT WINGS (mirrored) -->
+              <g class="wing-group wing-group--right" [style.--flap-dur]="b.flapDur">
+                <!-- Upper wing -->
+                <path [attr.fill]="'url(#wg-upper-' + b.id + ')'"
+                      d="M60 50 C68 32, 90 8, 108 18 C122 26, 118 48, 102 52 C92 54, 78 56, 68 54 C64 53, 62 51, 60 50Z" />
+                <path d="M60 50 C68 32, 90 8, 108 18"
+                      fill="none" stroke="rgba(255,255,255,0.3)" stroke-width="0.8" />
+                <path d="M60 50 C72 40, 90 28, 102 30" fill="none" stroke="rgba(0,0,0,0.07)" stroke-width="0.5" />
+                <path d="M60 50 C70 44, 88 38, 106 42" fill="none" stroke="rgba(0,0,0,0.06)" stroke-width="0.4" />
+                <path d="M60 50 C68 48, 84 48, 98 50" fill="none" stroke="rgba(0,0,0,0.05)" stroke-width="0.4" />
+                <circle cx="90" cy="30" r="3.5" [attr.fill]="b.spotColor" fill-opacity="0.3" />
+                <circle cx="98" cy="38" r="2.5" [attr.fill]="b.spotColor" fill-opacity="0.25" />
+                <circle cx="82" cy="36" r="2" fill="rgba(255,255,255,0.2)" />
+                <!-- Lower wing -->
+                <path [attr.fill]="'url(#wg-lower-' + b.id + ')'"
+                      d="M60 50 C66 58, 84 68, 98 76 C106 82, 102 90, 90 86 C80 82, 68 70, 62 58 C61 55, 60 52, 60 50Z" />
+                <path d="M60 50 C70 60, 84 70, 94 78" fill="none" stroke="rgba(0,0,0,0.06)" stroke-width="0.4" />
+                <path d="M60 50 C68 58, 80 66, 88 72" fill="none" stroke="rgba(0,0,0,0.05)" stroke-width="0.3" />
+                <path d="M98 76 C106 82, 102 90, 90 86"
+                      fill="none" stroke="rgba(255,255,255,0.2)" stroke-width="0.6" />
+                <circle cx="82" cy="68" r="2.5" [attr.fill]="b.spotColor" fill-opacity="0.2" />
+              </g>
+
+              <!-- BODY -->
+              <ellipse cx="60" cy="54" rx="2.2" ry="14" fill="#3d2e1e" opacity="0.85" />
+              <!-- Thorax -->
+              <ellipse cx="60" cy="46" rx="2.8" ry="5" fill="#4a3828" opacity="0.7" />
+              <!-- Head -->
+              <circle cx="60" cy="39" r="2.5" fill="#3d2e1e" opacity="0.8" />
+              <!-- Eyes -->
+              <circle cx="58.5" cy="38.2" r="0.7" fill="#1a1a1a" />
+              <circle cx="61.5" cy="38.2" r="0.7" fill="#1a1a1a" />
+              <!-- Antennae -->
+              <path d="M59 37 Q52 22 46 18" fill="none" stroke="#3d2e1e" stroke-width="0.5" opacity="0.6" stroke-linecap="round" />
+              <path d="M61 37 Q68 22 74 18" fill="none" stroke="#3d2e1e" stroke-width="0.5" opacity="0.6" stroke-linecap="round" />
+              <!-- Antenna tips (clubs) -->
+              <ellipse cx="46" cy="17.5" rx="1.2" ry="1.8" fill="#3d2e1e" opacity="0.5" transform="rotate(-20 46 17.5)" />
+              <ellipse cx="74" cy="17.5" rx="1.2" ry="1.8" fill="#3d2e1e" opacity="0.5" transform="rotate(20 74 17.5)" />
+              <!-- Legs (subtle) -->
+              <line x1="59" y1="50" x2="55" y2="56" stroke="#3d2e1e" stroke-width="0.3" opacity="0.3" />
+              <line x1="61" y1="50" x2="65" y2="56" stroke="#3d2e1e" stroke-width="0.3" opacity="0.3" />
+              <line x1="59" y1="54" x2="54" y2="60" stroke="#3d2e1e" stroke-width="0.3" opacity="0.25" />
+              <line x1="61" y1="54" x2="66" y2="60" stroke="#3d2e1e" stroke-width="0.3" opacity="0.25" />
+            </svg>
+          </div>
+        </div>
+      </div>
+    }
+  </div>
+
   <!-- Envelope -->
   <div class="envelope-wrap" (click)="onEnvelopeClick()" [class.clicked]="state !== 'idle'">
 

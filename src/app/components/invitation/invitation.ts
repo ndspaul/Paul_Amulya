@@ -1,4 +1,4 @@
-import { Component, Output, EventEmitter, OnDestroy } from '@angular/core';
+import { Component, Output, EventEmitter, OnDestroy, AfterViewInit, ViewChild, ElementRef } from '@angular/core';
 
 interface Spark {
   x: string; y: string; size: string; color: string;
@@ -16,13 +16,19 @@ interface Ember {
   templateUrl: './invitation.html',
   styleUrl: './invitation.scss',
 })
-export class Invitation implements OnDestroy {
+export class Invitation implements OnDestroy, AfterViewInit {
   @Output() opened = new EventEmitter<void>();
+  @Output() envelopeClicked = new EventEmitter<void>();
+  @ViewChild('inviteVideo') private inviteVideoRef!: ElementRef<HTMLVideoElement>;
 
   state: 'idle' | 'opening' | 'expanding' | 'done' = 'idle';
 
-  sparks: Spark[] = Array.from({ length: 28 }, (_, i) => {
-    const angle = -88 + (i / 27) * 176;
+  private readonly isMobile = typeof window !== 'undefined' && window.matchMedia('(max-width: 768px)').matches;
+  private readonly sparkCount = this.isMobile ? 16 : 28;
+  private readonly emberCount = this.isMobile ? 7 : 12;
+
+  sparks: Spark[] = Array.from({ length: this.sparkCount }, (_, i) => {
+    const angle = -88 + (i / (this.sparkCount - 1)) * 176;
     const rad = (angle * Math.PI) / 180;
     const dist = 120 + (i % 6) * 40;
     return {
@@ -35,8 +41,8 @@ export class Invitation implements OnDestroy {
     };
   });
 
-  embers: Ember[] = Array.from({ length: 12 }, (_, i) => {
-    const angle = -70 + (i / 11) * 140;
+  embers: Ember[] = Array.from({ length: this.emberCount }, (_, i) => {
+    const angle = -70 + (i / (this.emberCount - 1)) * 140;
     const rad = (angle * Math.PI) / 180;
     const dist = 180 + (i % 4) * 55;
     return {
@@ -52,23 +58,43 @@ export class Invitation implements OnDestroy {
 
   onEnvelopeClick(): void {
     if (this.state !== 'idle') return;
+    this.envelopeClicked.emit();
     this.state = 'opening';
 
-    // Cinematic timing: Flap opens slowly (4s). Letter waits 2500ms, then slides fast for 400ms (finishes at 2900ms)
-    // 2.5s delay + 0.6s slide = 3.1s → trigger expand
+    // Flap opens in 2.5s. Letter slides up at 1.5s delay + 1.2s anim = done at 2.7s.
+    // Expand at 2900ms so the letter is fully risen before going fullscreen.
     this.timeoutId = setTimeout(() => {
       this.state = 'expanding';
-
-      // 0.5s expand transition → mark done (removes invite-screen from DOM)
       this.expandTimeoutId = setTimeout(() => {
         this.state = 'done';
         this.opened.emit();
-      }, 300);
-    }, 2000);
+      }, 150);
+    }, 2900);
   }
 
   ngOnDestroy(): void {
     if (this.timeoutId) clearTimeout(this.timeoutId);
     if (this.expandTimeoutId) clearTimeout(this.expandTimeoutId);
+  }
+
+  ngAfterViewInit(): void {
+    const video = this.inviteVideoRef?.nativeElement;
+    if (!video) return;
+
+    video.muted = true;
+    video.defaultMuted = true;
+    video.playsInline = true;
+    video.autoplay = true;
+
+    const tryPlay = () => video.play().catch(() => {});
+    video.addEventListener('loadeddata', tryPlay, { once: true });
+
+    const observer = new IntersectionObserver((entries) => {
+      if (entries[0].isIntersecting) {
+        tryPlay();
+        observer.disconnect();
+      }
+    });
+    observer.observe(video);
   }
 }

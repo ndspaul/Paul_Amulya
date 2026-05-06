@@ -14,12 +14,15 @@
     height: 100%;
     object-fit: cover;
     z-index: 0;
+    transform: scale(1.04);
+    filter: saturate(1.02) brightness(0.78);
+    animation: inviteVideoFloat 20s ease-in-out infinite alternate;
   }
 
   &__overlay {
     position: absolute;
     inset: 0;
-    background: rgba(0, 0, 0, 0.45);
+    background: linear-gradient(to bottom, rgba(0, 0, 0, 0.5), rgba(22, 8, 4, 0.56));
     z-index: 1;
   }
 }
@@ -46,7 +49,7 @@
 
   &__pre {
     margin: 0 0 0.4rem;
-    font-family: 'Georgia', serif;
+    font-family: var(--font-accent);
     font-size: 0.85rem;
     letter-spacing: 0.3em;
     text-transform: uppercase;
@@ -59,7 +62,7 @@
 
   &__title {
     margin: 0 0 0.3rem;
-    font-family: 'Georgia', serif;
+    font-family: var(--font-display);
     font-size: clamp(1.6rem, 4vw, 2.8rem);
     font-weight: normal;
     color: #fff;
@@ -72,7 +75,7 @@
 
   &__names {
     margin: 0;
-    font-family: 'Georgia', serif;
+    font-family: var(--font-display);
     font-size: clamp(1.2rem, 3vw, 2rem);
     color: #f5e6d3;
     letter-spacing: 0.05em;
@@ -163,9 +166,9 @@
     filter: drop-shadow(0 0px 0px rgba(100, 60, 20, 0));
     z-index: 0;
     transition:
-      transform 12.5s cubic-bezier(0.16, 1, 0.3, 1),
-      filter    12.5s cubic-bezier(0.16, 1, 0.3, 1),
-      z-index 0s 2.5s;
+      transform 18.5s cubic-bezier(0.16, 1, 0.3, 1),
+      filter    2.5s cubic-bezier(0.16, 1, 0.3, 1),
+      z-index 0s 1.5s;
   }
 }
 
@@ -179,6 +182,7 @@
   align-items: center;
   gap: 0.5rem;
   opacity: 1;
+  z-index: 5;
   transition: opacity 0.5s cubic-bezier(0.16, 1, 0.3, 1);
   white-space: nowrap;
   animation: hintReveal 1.4s cubic-bezier(0.16, 1, 0.3, 1) 2s both;
@@ -186,12 +190,30 @@
   &.hide { opacity: 0; pointer-events: none; }
 
   &__text {
-    font-family: 'Georgia', serif;
+    font-family: var(--font-accent);
     font-size: 0.8rem;
     letter-spacing: 0.22em;
     text-transform: uppercase;
     color: #c9a96e;
     text-shadow: 0 0 12px rgba(201, 169, 110, 0.4);
+  }
+}
+
+@keyframes inviteVideoFloat {
+  0% {
+    transform: scale(1.04) translate3d(0, 0, 0);
+    filter: saturate(1.02) brightness(0.78);
+  }
+  100% {
+    transform: scale(1.1) translate3d(0, -1.8%, 0);
+    filter: saturate(1.1) brightness(0.88);
+  }
+}
+
+@media (max-width: 768px) {
+  .invite-screen__video {
+    animation-duration: 28s;
+    filter: brightness(0.82);
   }
 }
 
@@ -272,14 +294,18 @@
 .eruption__bg {
   position: absolute;
   inset: 0;
-  background: radial-gradient(ellipse at 50% 100%,
-    #fff3c0 0%, #ffd700 20%, #b8860b 50%, #1a0030 85%);
-  animation: bgPulse 0.6s ease-in-out infinite alternate;
+  background: radial-gradient(ellipse at 50% 55%,
+    rgba(255, 230, 170, 0.4) 0%,
+    rgba(180, 100, 255, 0.2) 40%,
+    rgba(80, 10, 140, 0.15) 70%,
+    transparent 90%
+  );
+  animation: bgBloom 1.4s ease-out forwards;
 }
 
-@keyframes bgPulse {
-  from { opacity: 0.8; }
-  to   { opacity: 1; }
+@keyframes bgBloom {
+  from { opacity: 0; transform: scale(0.6); }
+  to   { opacity: 1; transform: scale(1);   }
 }
 
 .eruption__core {
@@ -290,27 +316,28 @@
   width: 100%;
   height: 100%;
   background: conic-gradient(
-    from 260deg at 50% 100%,
+    from 270deg at 50% 60%,
     transparent 0deg,
-    rgba(255, 253, 200, 0.55) 4deg, transparent 10deg,
-    rgba(255, 220, 80, 0.4)  16deg, transparent 22deg,
-    rgba(255, 253, 200, 0.5) 28deg, transparent 34deg,
-    rgba(255, 220, 80, 0.35) 40deg, transparent 46deg,
-    rgba(255, 253, 200, 0.5) 52deg, transparent 58deg,
-    rgba(255, 220, 80, 0.4)  64deg, transparent 70deg,
-    rgba(255, 253, 200, 0.45) 76deg, transparent 82deg,
+    rgba(255, 220, 150, 0.25) 4deg,  transparent 12deg,
+    rgba(200, 140, 255, 0.18) 18deg, transparent 26deg,
+    rgba(255, 220, 150, 0.22) 32deg, transparent 40deg,
+    rgba(200, 140, 255, 0.18) 46deg, transparent 54deg,
+    rgba(255, 220, 150, 0.25) 60deg, transparent 68deg,
+    rgba(200, 140, 255, 0.18) 74deg, transparent 82deg,
     transparent 82deg
   );
-  animation: raysFlicker 0.5s ease-in-out infinite alternate;
+  animation: raysFlicker 0.7s ease-in-out infinite alternate;
 
   &--inner {
     width: 60%;
-    height: 40%;
+    height: 45%;
     bottom: -5%;
-    background: radial-gradient(ellipse at 50% 100%,
-      rgba(255,255,240,0.95) 0%, rgba(255,230,100,0.7) 30%, transparent 75%);
-    filter: blur(10px);
-    animation: innerGlow 0.35s ease-in-out infinite alternate;
+    background: radial-gradient(ellipse at 50% 50%,
+      rgba(255, 235, 180, 0.5) 0%,
+      rgba(201, 160, 240, 0.3) 40%,
+      transparent 75%);
+    filter: blur(14px);
+    animation: innerGlow 0.5s ease-in-out infinite alternate;
   }
 }
 
@@ -329,7 +356,7 @@
   position: absolute;
   bottom: 28%;
   left: 50%;
-  filter: drop-shadow(0 0 6px rgba(255, 180, 50, 0.9));
+  filter: drop-shadow(0 0 5px rgba(201, 169, 110, 0.8));
   animation: sparkFly var(--animationDuration, 0.8s) ease-out var(--animationDelay, 0s) infinite;
 }
 
@@ -360,9 +387,9 @@
 .eruption__heat {
   position: absolute;
   inset: 0;
-  background: radial-gradient(ellipse at 50% 90%,
-    rgba(255, 220, 80, 0.2) 0%, rgba(201, 169, 110, 0.1) 40%, transparent 70%);
-  animation: heatWave 0.5s ease-in-out infinite alternate;
+  background: radial-gradient(ellipse at 50% 50%,
+    rgba(255, 220, 150, 0.1) 0%, rgba(201, 160, 240, 0.06) 40%, transparent 70%);
+  animation: heatWave 0.8s ease-in-out infinite alternate;
 }
 
 @keyframes heatWave {

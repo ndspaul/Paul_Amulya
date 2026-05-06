@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy, ChangeDetectorRef } from '@angular/core';
+import { Component, OnInit, OnDestroy, ChangeDetectorRef, ElementRef } from '@angular/core';
 import { interval, Subscription } from 'rxjs';
 
 @Component({
@@ -9,6 +9,7 @@ import { interval, Subscription } from 'rxjs';
 })
 export class CountDown implements OnInit, OnDestroy {
   weddingDate: number = new Date(2026, 5, 6, 19, 0, 0).getTime();
+  flipping: Record<string, boolean> = { days: false, hours: false, minutes: false, seconds: false };
 
   googleCalendarUrl = 'https://calendar.google.com/calendar/render?action=TEMPLATE' +
     '&text=Paul+%26+Amulya+Wedding' +
@@ -43,22 +44,36 @@ export class CountDown implements OnInit, OnDestroy {
   hours: number = 0;
   minutes: number = 0;
   seconds: number = 0;
+  isVisible = false;
 
   private timeSubscription?: Subscription;
+  private visibilityObserver?: IntersectionObserver;
 
-  constructor(private cdr: ChangeDetectorRef) {}
+  constructor(private cdr: ChangeDetectorRef, private el: ElementRef) {}
 
   ngOnInit(): void {
     this.updateCountdown();
-    // Use RxJS interval which integrates perfectly with Angular's change detection
     this.timeSubscription = interval(1000).subscribe(() => {
       this.updateCountdown();
-      this.cdr.markForCheck(); // Marks the component to be checked by Angular safely
+      this.cdr.markForCheck();
     });
+
+    this.visibilityObserver = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          this.isVisible = true;
+          this.cdr.markForCheck();
+          this.visibilityObserver?.disconnect();
+        }
+      },
+      { threshold: 0.15 }
+    );
+    this.visibilityObserver.observe(this.el.nativeElement);
   }
 
   ngOnDestroy(): void {
-    if (this.timeSubscription) this.timeSubscription.unsubscribe();
+    this.timeSubscription?.unsubscribe();
+    this.visibilityObserver?.disconnect();
   }
 
   private updateCountdown(): void {
@@ -71,9 +86,27 @@ export class CountDown implements OnInit, OnDestroy {
       return;
     }
 
-    this.days = Math.floor(distance / (1000 * 60 * 60 * 24));
-    this.hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-    this.minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
-    this.seconds = Math.floor((distance % (1000 * 60)) / 1000);
+    const newDays    = Math.floor(distance / (1000 * 60 * 60 * 24));
+    const newHours   = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+    const newMinutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+    const newSeconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+    if (newDays    !== this.days)    this.flash('days');
+    if (newHours   !== this.hours)   this.flash('hours');
+    if (newMinutes !== this.minutes) this.flash('minutes');
+    if (newSeconds !== this.seconds) this.flash('seconds');
+
+    this.days    = newDays;
+    this.hours   = newHours;
+    this.minutes = newMinutes;
+    this.seconds = newSeconds;
+  }
+
+  private flash(key: string): void {
+    this.flipping[key] = true;
+    setTimeout(() => {
+      this.flipping[key] = false;
+      this.cdr.markForCheck();
+    }, 380);
   }
 }

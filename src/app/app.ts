@@ -1,14 +1,4 @@
-import { Component, OnInit, AfterViewInit, ChangeDetectorRef, ViewChild, ElementRef } from '@angular/core';
-
-interface Petal {
-  left: string;
-  size: string;
-  duration: string;
-  delay: string;
-  opacity: number;
-  rotate: string;
-  drift: string;
-}
+import { Component, OnInit, AfterViewInit, OnDestroy, ChangeDetectorRef, ViewChild, ElementRef } from '@angular/core';
 
 interface BurstPetal {
   angle: string;
@@ -30,29 +20,21 @@ interface BurstHeart {
   standalone: false,
   styleUrl: './app.scss'
 })
-export class App implements OnInit, AfterViewInit {
+export class App implements OnInit, AfterViewInit, OnDestroy {
   isLoading = false;
   isMuted = false;
   showBurst = false;
-  petals: Petal[] = [];
   burstPetals: BurstPetal[] = [];
   burstHearts: BurstHeart[] = [];
 
   @ViewChild('bgMusic') private bgMusic!: ElementRef<HTMLAudioElement>;
+  private revealElements: HTMLElement[] = [];
+  private scrollRafId: number | null = null;
+  private onScrollHandler?: () => void;
 
   constructor(private cdr: ChangeDetectorRef) {}
 
   ngOnInit(): void {
-    this.petals = Array.from({ length: 40 }, () => ({
-      left: `${Math.random() * 100}%`,
-      size: `${10 + Math.random() * 14}px`,
-      duration: `${8 + Math.random() * 10}s`,
-      delay: `${Math.random() * 15}s`,
-      opacity: 0.25 + Math.random() * 0.45,
-      rotate: `${Math.random() * 360}deg`,
-      drift: `${(Math.random() - 0.5) * 120}px`,
-    }));
-
     this.burstPetals = Array.from({ length: 20 }, (_, i) => ({
       angle: `${(i * 360 / 20) + (Math.random() * 18 - 9)}deg`,
       distance: `${130 + Math.random() * 120}px`,
@@ -68,6 +50,14 @@ export class App implements OnInit, AfterViewInit {
     }));
   }
 
+  playAudio(): void {
+    const audio = this.bgMusic?.nativeElement;
+    if (audio) {
+      audio.volume = 0.4;
+      audio.play().catch((e) => console.warn('Audio play failed:', e));
+    }
+  }
+
   onInvitationOpened(): void {
     this.showBurst = true;
     this.cdr.detectChanges();
@@ -75,12 +65,6 @@ export class App implements OnInit, AfterViewInit {
       this.showBurst = false;
       this.cdr.detectChanges();
     }, 3500);
-
-    const audio = this.bgMusic?.nativeElement;
-    if (audio) {
-      audio.volume = 0.4;
-      audio.play().catch(() => {});
-    }
   }
 
   toggleMusic(): void {
@@ -95,11 +79,48 @@ export class App implements OnInit, AfterViewInit {
       (entries) => entries.forEach(e => {
         if (e.isIntersecting) {
           e.target.classList.add('visible');
-          observer.unobserve(e.target);
         }
       }),
-      { threshold: 0.2 }
+      { threshold: [0.1, 0.2, 0.45, 0.7], rootMargin: '0px 0px -8% 0px' }
     );
-    document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+    this.revealElements = Array.from(document.querySelectorAll('.reveal')) as HTMLElement[];
+    this.revealElements.forEach(el => observer.observe(el));
+
+    const onScroll = () => {
+      if (this.scrollRafId !== null) return;
+      this.scrollRafId = window.requestAnimationFrame(() => {
+        this.scrollRafId = null;
+        this.updateRevealProgress();
+      });
+    };
+
+    window.addEventListener('scroll', onScroll, { passive: true });
+    window.addEventListener('resize', onScroll, { passive: true });
+    this.updateRevealProgress();
+
+    // Keep cleanup reference on the instance.
+    this.onScrollHandler = onScroll;
+  }
+
+  ngOnDestroy(): void {
+    const onScroll = this.onScrollHandler;
+    if (onScroll) {
+      window.removeEventListener('scroll', onScroll);
+      window.removeEventListener('resize', onScroll);
+    }
+    if (this.scrollRafId !== null) {
+      window.cancelAnimationFrame(this.scrollRafId);
+      this.scrollRafId = null;
+    }
+  }
+
+  private updateRevealProgress(): void {
+    const viewportH = window.innerHeight || 1;
+    this.revealElements.forEach((el) => {
+      const rect = el.getBoundingClientRect();
+      const raw = (viewportH - rect.top) / (viewportH + rect.height * 0.35);
+      const progress = Math.min(1, Math.max(0, raw));
+      el.style.setProperty('--reveal-progress', progress.toFixed(3));
+    });
   }
 }

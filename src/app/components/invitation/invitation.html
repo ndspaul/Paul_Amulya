@@ -7,6 +7,7 @@
     <source src="/hero-bg.mp4" type="video/mp4" />
   </video>
   <div class="invite-screen__overlay"></div>
+  <div class="envelope-underlay active"></div>
 
   <!-- Top invitation text -->
   <div class="invite-card" [class.fade-up]="state !== 'idle'">
@@ -17,17 +18,12 @@
 
   <!-- Envelope -->
   <div class="envelope-wrap" (click)="onEnvelopeClick()" [class.clicked]="state !== 'idle'">
-
     <!-- Letter: volcanic eruption bursting from the envelope -->
     <div class="letter"
          [class.out]="state === 'opening'"
          [class.fullscreen]="state === 'expanding'">
 
       <div class="eruption" [class.active]="state !== 'idle'">
-        <div class="eruption__bg"></div>
-        <div class="eruption__core"></div>
-        <div class="eruption__core eruption__core--inner"></div>
-
         <!-- Petals bursting out -->
         <svg class="eruption__spark" viewBox="0 0 40 60"
           *ngFor="let s of sparks"
@@ -56,7 +52,6 @@
           [style.animationDelay]="e.animationDelay"
           [style.animationDuration]="e.animationDuration">♥</div>
 
-        <div class="eruption__heat"></div>
       </div>
 
     </div>

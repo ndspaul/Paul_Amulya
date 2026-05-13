@@ -6,15 +6,12 @@
   margin-bottom: 0.5rem;
   opacity: 0;
   transform: translateY(16px);
-  filter: blur(4px);
-  transition: opacity 0.9s cubic-bezier(0.16, 1, 0.3, 1),
-              transform 0.9s cubic-bezier(0.16, 1, 0.3, 1),
-              filter 0.9s cubic-bezier(0.16, 1, 0.3, 1);
+  transition: opacity 0.7s cubic-bezier(0.16, 1, 0.3, 1),
+              transform 0.7s cubic-bezier(0.16, 1, 0.3, 1);
 
   &.visible {
     opacity: 1;
     transform: translateY(0);
-    filter: blur(0);
   }
 }
 
@@ -106,7 +103,6 @@
   border: 1px solid rgba(180, 120, 255, 0.4);
   background: rgba(255, 255, 255, 0.04);
   color: #c9a0e8;
-  backdrop-filter: blur(8px);
 
   svg {
     width: 14px;
@@ -155,18 +151,14 @@
       inset 0 1px 0 rgba(255, 255, 255, 0.06);
     position: relative;
     overflow: hidden;
-    backdrop-filter: blur(8px);
 
     /* Start hidden; revealed when .countdown.visible */
     opacity: 0;
     transform: translateY(24px) scale(0.92);
-    filter: blur(5px);
     transition:
       opacity 0.7s cubic-bezier(0.16, 1, 0.3, 1),
       transform 0.7s cubic-bezier(0.16, 1, 0.3, 1),
-      filter 0.7s cubic-bezier(0.16, 1, 0.3, 1),
-      border-color 0.4s ease,
-      box-shadow 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+      border-color 0.4s ease;
 
     &:nth-child(1) { transition-delay: 0.05s; }
     &:nth-child(2) { transition-delay: 0.18s; }
@@ -205,7 +197,6 @@
   &.visible &__block {
     opacity: 1;
     transform: translateY(0) scale(1);
-    filter: blur(0);
   }
 
   &__number {

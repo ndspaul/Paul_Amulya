@@ -12,6 +12,8 @@ import { Invitation } from './components/invitation/invitation';
 import { CountDown } from './count-down/count-down';
 import { Venue } from './venue/venue';
 import { Couple } from './couple/couple';
+import { PlacesToVisit } from './places-to-visit/places-to-visit';
+import { PhotoMoment } from './components/photo-moment/photo-moment';
 
 @NgModule({
   declarations: [
@@ -24,6 +26,8 @@ import { Couple } from './couple/couple';
     CountDown,
     Venue,
     Couple,
+    PlacesToVisit,
+    PhotoMoment,
   ],
   imports: [BrowserModule, CommonModule, AppRoutingModule],
   providers: [provideBrowserGlobalErrorListeners(), DecimalPipe],

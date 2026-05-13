@@ -2,13 +2,13 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding: 3rem 1.5rem;
+  padding: 0 1.5rem 3rem;
   gap: 2.5rem;
   max-width: 600px;
   margin: 0 auto;
   text-align: center;
 
-  @media (max-width: 600px) { padding: 2rem 1rem; gap: 2rem; }
+  @media (max-width: 600px) { padding: 0 1rem 2rem; gap: 2rem; }
 }
 
 /* ── Portrait ─────────────────────────────────────── */
@@ -75,7 +75,7 @@
   backdrop-filter: blur(8px);
   position: relative;
   opacity: 0;
-  filter: blur(3px);
+  /* no filter transition — use opacity+transform only */
 
   &::before {
     content: '\201C';
@@ -90,16 +90,14 @@
 
   &--top {
     transform: translateX(-40px);
-    transition: opacity 0.9s cubic-bezier(0.16, 1, 0.3, 1) 0s,
-                transform 0.9s cubic-bezier(0.16, 1, 0.3, 1) 0s,
-                filter 0.9s ease 0s;
+    transition: opacity 0.7s cubic-bezier(0.16, 1, 0.3, 1) 0s,
+                transform 0.7s cubic-bezier(0.16, 1, 0.3, 1) 0s;
   }
 
   &--bottom {
     transform: translateX(40px);
-    transition: opacity 0.9s cubic-bezier(0.16, 1, 0.3, 1) 0.6s,
-                transform 0.9s cubic-bezier(0.16, 1, 0.3, 1) 0.6s,
-                filter 0.9s ease 0.6s;
+    transition: opacity 0.7s cubic-bezier(0.16, 1, 0.3, 1) 0.4s,
+                transform 0.7s cubic-bezier(0.16, 1, 0.3, 1) 0.4s;
   }
 
   @media (max-width: 600px) { padding: 1.2rem 1.2rem; }
@@ -119,7 +117,6 @@
 .couple-section.visible .couple-section__verse {
   opacity: 1;
   transform: translateX(0);
-  filter: blur(0);
 }
 
 .couple-section__verse-ref {

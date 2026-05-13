@@ -51,7 +51,7 @@
     color: #f5e6d3;
     margin: 0;
     text-shadow: 0 1px 4px rgba(0, 0, 0, 0.5);
-    animation: heroSmallReveal 1.4s cubic-bezier(0.16, 1, 0.3, 1) 0.3s both;
+    animation: heroSmallReveal 1s cubic-bezier(0.16, 1, 0.3, 1) 0.1s both;
 
     @media (max-width: 480px) {
       font-size: 0.75rem;
@@ -68,7 +68,7 @@
     color: #f5e6d3;
     margin: 0;
     text-shadow: 0 1px 4px rgba(0, 0, 0, 0.5);
-    animation: heroDateReveal 1.6s cubic-bezier(0.16, 1, 0.3, 1) 1.8s both;
+    animation: heroDateReveal 1s cubic-bezier(0.16, 1, 0.3, 1) 0.5s both;
 
     @media (max-width: 480px) {
       font-size: 1rem;
@@ -83,12 +83,8 @@
     margin: 0;
     text-align: center;
     line-height: 1.2;
-
-    /* Fade up reveal + persistent gold shimmer pulse */
-    opacity: 0;
-    transform: translateY(24px);
     animation:
-      heroNamesReveal 2s cubic-bezier(0.16, 1, 0.3, 1) 0.7s forwards,
+      heroNamesReveal 1.4s cubic-bezier(0.16, 1, 0.3, 1) 0.3s both,
       goldNameShimmer 5s ease-in-out 3s infinite;
 
     .amp {
@@ -179,9 +175,5 @@
 @media (max-width: 768px) {
   .hero__video {
     filter: blur(1.2px);
-  }
-
-  .hero__names-text {
-    animation: heroNamesReveal 1.3s cubic-bezier(0.16, 1, 0.3, 1) 0.4s forwards;
   }
 }

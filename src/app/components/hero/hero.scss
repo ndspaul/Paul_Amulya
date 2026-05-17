@@ -14,9 +14,8 @@
     height: 100%;
     object-fit: cover;
     z-index: 0;
-    /* static blur via scale — no animated filter */
-    filter: blur(2px);
     transform: scale(1.06);
+    will-change: transform;
   }
 
   &__overlay {
@@ -140,11 +139,10 @@
   opacity: 0;
   animation: heroSmallReveal 1s cubic-bezier(0.16, 1, 0.3, 1) 2s both;
   cursor: pointer;
-  background: rgba(0, 0, 0, 0.45);
+  background: rgba(0, 0, 0, 0.55);
   border: 1px solid rgba(201, 169, 110, 0.6);
   border-radius: 999px;
   padding: 0.6rem 1.2rem 0.5rem;
-  backdrop-filter: blur(6px);
 
   @media (max-height: 500px) { display: none; }
 }
@@ -183,23 +181,14 @@
   100% { opacity: 0.85; }
 }
 
-/* Slow golden shimmer breathing on the names */
+/* Slow golden shimmer — opacity only, no text-shadow change */
 @keyframes goldNameShimmer {
-  0%, 100% {
-    text-shadow:
-      0 2px 12px rgba(0, 0, 0, 0.4),
-      0 0 40px rgba(201, 169, 110, 0.15);
-  }
-  50% {
-    text-shadow:
-      0 2px 12px rgba(0, 0, 0, 0.4),
-      0 0 80px rgba(201, 169, 110, 0.45),
-      0 0 140px rgba(232, 180, 120, 0.15);
-  }
+  0%, 100% { opacity: 0.9; }
+  50%       { opacity: 1;   }
 }
 
 @media (max-width: 768px) {
   .hero__video {
-    filter: blur(1.2px);
+    transform: scale(1.04);
   }
 }

@@ -87,7 +87,13 @@ export class Invitation implements OnDestroy, AfterViewInit {
     video.autoplay = true;
 
     const tryPlay = () => video.play().catch(() => {});
+
     video.addEventListener('loadeddata', tryPlay, { once: true });
+    video.addEventListener('canplay', tryPlay, { once: true });
+
+    // Resume if browser paused it when tab was hidden
+    const onVisible = () => { if (!document.hidden) tryPlay(); };
+    document.addEventListener('visibilitychange', onVisible);
 
     const observer = new IntersectionObserver((entries) => {
       if (entries[0].isIntersecting) {
